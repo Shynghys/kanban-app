@@ -1,6 +1,28 @@
-<script setup></script>
-<template>the tabs</template>
+<template>
+	<div class="tabs">
+		<ul class="tabs-header">
+			<li
+				v-for="title in tabTitles"
+				:key="title"
+				@click="selectedTitle = title"
+				class="tab"
+			>
+				{{ title }}
+			</li>
+		</ul>
+		<slot></slot>
+	</div>
+</template>
 
+<script >
+import { ref, provide } from "vue";
 
-
-<style></style>
+export default {
+	setup(props, { slots }) {
+		const tabTitles = ref(slots.default().map((tab) => tab.props.title));
+		const selectedTitle = ref(tabTitles.value[0]);
+		provide("selectedTitle", selectedTitle);
+		return { selectedTitle, tabTitles };
+	},
+};
+</script>
