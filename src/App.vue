@@ -1,26 +1,62 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+	<div class="container">
+		<div>Отображение списка сделок</div>
+
+		<div>
+			<the-tabs />
+			<!-- {{ kanban }} -->
+			<the-card v-for="item in kanban" :key="item.ID" :item="item" />
+		</div>
+	</div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+<script setup>
+import TheTabs from "./components/TheTabs.vue";
+import TheCard from "./components/TheCard.vue";
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+import { ref, nextTick, onMounted } from "vue";
+import axios from "axios";
+
+let kanban = ref([]);
+onMounted(() => {
+	nextTick(async function () {
+		let url = `https://aso-test-1.bitrix24.ru/rest/1/83go2kp1c28weuej/crm.deal.list`;
+		console.log(url);
+		await axios.get(url).then((response) => {
+			kanban.value = response.data.result;
+			console.log(response.data.result, kanban);
+		});
+	});
+});
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+@import url("https://fonts.googleapis.com/css2?family=Bitter:wght@300;500;600&display=swap");
+
+html {
+	box-sizing: border-box;
+	font-family: "Bitter", serif;
+}
+
+*,
+*:before,
+*:after {
+	box-sizing: border-box;
+	margin: 0;
+}
+
+.container {
+	position: relative;
+	width: 1300px;
+	margin: 0 auto;
+}
+
+.widget__gear-icon {
+	z-index: 200;
+	position: absolute;
+	top: 10px;
+	right: 15px;
+	width: 25px;
+	background: transparent;
 }
 </style>
