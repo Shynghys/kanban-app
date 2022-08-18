@@ -1,5 +1,5 @@
 <template>
-	<div class="tab" v-show="title == selectedTitle">
+	<div class="tab__content" v-show="title == selectedTitle">
 		<slot></slot>
 	</div>
 </template>
@@ -16,4 +16,8 @@ export default {
 
 
 
-<style></style>
+<style>
+.tab__content {
+	width: 100%;
+}
+</style>

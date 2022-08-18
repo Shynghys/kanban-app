@@ -3,12 +3,32 @@
 		<div>Отображение списка сделок</div>
 
 		<div>
-			<the-tabs>
-				<the-tab title="Tab 1">Hello From Tab 1</the-tab>
-				<the-tab title="Tab 2">Hello From Tab 2</the-tab>
+			<the-tabs class="tabs__wrapper">
+				<the-tab title="deals[0]?.STAGE_ID">
+					<the-card
+						v-for="item in deals.filter(
+							(item) => item.STAGE_ID == deals[0]?.STAGE_ID
+						)"
+						:key="item.ID"
+						:item="item"
+				/></the-tab>
+				<the-tab title="2">
+					<the-card
+						v-for="item in deals.filter(
+							(item) => item.STAGE_ID == deals[1]?.STAGE_ID
+						)"
+						:key="item.ID"
+						:item="item"
+				/></the-tab>
+				<the-tab v-for="tab in status" :key="tab.ID" :title="tab.NAME"
+					><the-card
+						v-for="item in deals.filter((item) => item.STAGE_ID == tab.NAME)"
+						:key="item.ID"
+						:item="item"
+					/>
+				</the-tab>
 			</the-tabs>
-			<!-- {{ deals }} -->
-			<the-card v-for="item in deals" :key="item.ID" :item="item" />
+			<!-- {{ status }} -->
 		</div>
 	</div>
 </template>
@@ -26,16 +46,18 @@ let status = ref([]);
 onMounted(() => {
 	nextTick(async function () {
 		let url = `https://aso-test-1.bitrix24.ru/rest/1/83go2kp1c28weuej/crm.deal.list`;
-		console.log(url);
+		// console.log(url);
 		await axios.get(url).then((response) => {
 			deals.value = response.data.result;
-			console.log(response.data.result, deals);
+			// console.log(response.data.result, deals, deals.value[0].STAGE_ID);
 		});
 		let url1 = `https://aso-test-1.bitrix24.ru/rest/1/83go2kp1c28weuej/crm.status.list`;
-		console.log(url1);
+		// console.log(url1);
 		await axios.get(url1).then((response) => {
-			status.value = response.data.result;
-			console.log(response.data.result, status);
+			status.value = response.data.result.filter(
+				(item) => item.ENTITY_ID == "DEAL_STAGE"
+			);
+			// console.log(response.data.result, status);
 		});
 	});
 });
@@ -62,12 +84,13 @@ html {
 	margin: 0 auto;
 }
 
-.widget__gear-icon {
-	z-index: 200;
-	position: absolute;
-	top: 10px;
-	right: 15px;
-	width: 25px;
-	background: transparent;
+.tabs__wrapper {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	width: 100%;
+}
+.is-active {
+	background: grey;
 }
 </style>

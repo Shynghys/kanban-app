@@ -10,7 +10,7 @@ const props = defineProps({
 	item: Object,
 });
 let { item } = props;
-console.log(111, item);
+// console.log(111, item);
 </script>
 
 <style>
