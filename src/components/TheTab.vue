@@ -9,6 +9,7 @@ export default {
 	props: ["title"],
 	setup() {
 		const selectedTitle = inject("selectedTitle");
+
 		return { selectedTitle };
 	},
 };

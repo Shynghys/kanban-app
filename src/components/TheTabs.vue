@@ -4,7 +4,7 @@
 			<li
 				v-for="title in tabTitles"
 				:key="title"
-				@click="selectedTitle = title"
+				@click="clickTab(title)"
 				:class="selectedTitle == title ? 'is-active' : ''"
 			>
 				{{ title }}
@@ -16,7 +16,7 @@
 
 <script >
 import { ref, provide } from "vue";
-
+import axios from "axios";
 export default {
 	setup(props, { slots }) {
 		console.log(slots.default());
@@ -26,9 +26,16 @@ export default {
 				return tab?.props?.title;
 			})
 		);
-		const selectedTitle = ref(tabTitles.value[0]);
+
+		let selectedTitle = ref(tabTitles.value[0]);
+
+		function clickTab(title) {
+			selectedTitle.value = title;
+			console.log(selectedTitle);
+		}
 		provide("selectedTitle", selectedTitle);
-		return { selectedTitle, tabTitles };
+
+		return { selectedTitle, tabTitles, clickTab };
 	},
 };
 </script>

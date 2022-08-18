@@ -28,7 +28,7 @@
 					/>
 				</the-tab>
 			</the-tabs>
-			<!-- {{ status }} -->
+			{{ currentList }}
 		</div>
 	</div>
 </template>
@@ -38,11 +38,29 @@ import TheTabs from "./components/TheTabs.vue";
 import TheTab from "./components/TheTab.vue";
 import TheCard from "./components/TheCard.vue";
 
-import { ref, nextTick, onMounted } from "vue";
+import { ref, nextTick, onMounted, computed } from "vue";
 import axios from "axios";
 
 let deals = ref([]);
 let status = ref([]);
+
+let currentList = computed({
+	// getter
+	get() {
+		return deals;
+	},
+	// setter
+	set(newValue) {
+		return newValue.map(async (deal) => await getProducts(deal));
+	},
+});
+async function getProducts(deal) {
+	let url = `https://aso-test-1.bitrix24.ru/rest/1/83go2kp1c28weuej/crm.deal.productrows.get?id=${deal.ID}`;
+	await axios.get(url).then((response) => {
+		deals.value = response.data.result;
+		// console.log(response.data.result, deals, deals.value[0].STAGE_ID);
+	});
+}
 onMounted(() => {
 	nextTick(async function () {
 		let url = `https://aso-test-1.bitrix24.ru/rest/1/83go2kp1c28weuej/crm.deal.list`;
