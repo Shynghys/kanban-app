@@ -20,7 +20,12 @@
 						:key="item.ID"
 						:item="item"
 				/></the-tab>
-				<the-tab v-for="tab in status" :key="tab.ID" :title="tab.NAME"
+				<!-- @click="getDeal(tab)" -->
+				<the-tab
+					v-for="tab in status"
+					:key="tab.ID"
+					:title="tab.NAME"
+					@getDealFromTabs="getDeal"
 					><the-card
 						v-for="item in deals.filter((item) => item.STAGE_ID == tab.NAME)"
 						:key="item.ID"
@@ -51,9 +56,18 @@ let currentList = computed({
 	},
 	// setter
 	set(newValue) {
+		сonsole.log("setting");
 		return newValue.map(async (deal) => await getProducts(deal));
 	},
 });
+async function getDeal(tab) {
+	сonsole.log("getdeal", tab);
+	let url = `https://aso-test-1.bitrix24.ru/rest/1/83go2kp1c28weuej/crm.deal.productrows.get?id=${tab.STAGE_ID}`;
+	await axios.get(url).then((response) => {
+		deals.value = response.data.result;
+		// console.log(response.data.result, deals, deals.value[0].STAGE_ID);
+	});
+}
 async function getProducts(deal) {
 	let url = `https://aso-test-1.bitrix24.ru/rest/1/83go2kp1c28weuej/crm.deal.productrows.get?id=${deal.ID}`;
 	await axios.get(url).then((response) => {

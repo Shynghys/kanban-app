@@ -15,10 +15,10 @@
 </template>
 
 <script >
-import { ref, provide } from "vue";
+import { ref, provide, defineEmits } from "vue";
 import axios from "axios";
 export default {
-	setup(props, { slots }) {
+	setup(props, { slots, emit }) {
 		console.log(slots.default());
 		const tabTitles = ref(
 			slots.default().map((tab) => {
@@ -28,10 +28,12 @@ export default {
 		);
 
 		let selectedTitle = ref(tabTitles.value[0]);
+		// const emit = defineEmits(["getDealFromTabs"]);
 
 		function clickTab(title) {
 			selectedTitle.value = title;
-			console.log(selectedTitle);
+			console.log("clicktab", selectedTitle);
+			emit("getDealFromTabs", title);
 		}
 		provide("selectedTitle", selectedTitle);
 
