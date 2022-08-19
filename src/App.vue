@@ -1,10 +1,11 @@
 <template>
 	<div class="container">
-		<div>Отображение списка сделок</div>
+		<div class="title">Отображение списка сделок</div>
 
 		<div>
 			<the-tabs class="tabs__wrapper">
-				<the-tab title="deals[0]?.STAGE_ID">
+				<the-tab title="Preparation">
+					<!-- {{ deals[0]?.STAGE_ID }} -->
 					<the-card
 						v-for="item in deals.filter(
 							(item) => item.STAGE_ID == deals[0]?.STAGE_ID
@@ -12,7 +13,8 @@
 						:key="item.ID"
 						:item="item"
 				/></the-tab>
-				<the-tab title="2">
+				<the-tab title="Final invoice">
+					<!-- {{ deals[1]?.STAGE_ID }} -->
 					<the-card
 						v-for="item in deals.filter(
 							(item) => item.STAGE_ID == deals[1]?.STAGE_ID
@@ -20,20 +22,27 @@
 						:key="item.ID"
 						:item="item"
 				/></the-tab>
-				<!-- @click="getDeal(tab)" -->
-				<the-tab
-					v-for="tab in status"
-					:key="tab.ID"
-					:title="tab.NAME"
-					@getDealFromTabs="getDeal"
+				<the-tab v-for="tab in status" :key="tab.ID" :title="tab.NAME"
 					><the-card
-						v-for="item in deals.filter((item) => item.STAGE_ID == tab.NAME)"
+						v-for="item in deals.filter(
+							(item) => item.STAGE_ID == tab.STATUS_ID
+						)"
 						:key="item.ID"
 						:item="item"
 					/>
 				</the-tab>
 			</the-tabs>
-			{{ currentList }}
+
+			<!-- @click="getDeal(tab)" 
+					@getDealFromTabs="getDeal"-->
+			<div v-for="tab in status" :key="tab.ID">
+				{{ tab.NAME }}
+				<the-card
+					v-for="item in deals.filter((item) => item.STAGE_ID == tab.STATUS_ID)"
+					:key="item.ID"
+					:item="item"
+				/>
+			</div>
 		</div>
 	</div>
 </template>
@@ -83,6 +92,11 @@ onMounted(() => {
 			deals.value = response.data.result;
 			// console.log(response.data.result, deals, deals.value[0].STAGE_ID);
 		});
+		// status.forEach(tab=>)
+		currentList = deals.value.filter((item) => {
+			console.log(item.STAGE_ID);
+			return item.STAGE_ID == "Preparation";
+		});
 		let url1 = `https://aso-test-1.bitrix24.ru/rest/1/83go2kp1c28weuej/crm.status.list`;
 		// console.log(url1);
 		await axios.get(url1).then((response) => {
@@ -122,7 +136,8 @@ html {
 	justify-content: space-between;
 	width: 100%;
 }
-.is-active {
-	background: grey;
+
+.title {
+	font-size: 50px;
 }
 </style>
