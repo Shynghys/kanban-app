@@ -144,7 +144,7 @@ html {
 	width: 300px;
 }
 .tabs-component-tab {
-	padding: 10px 0;
+	padding: 10px;
 	margin-bottom: 5px;
 }
 .tabs-component-tab a {
