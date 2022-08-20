@@ -49,9 +49,13 @@ onMounted(() => {
 <style>
 .card {
 	padding: 20px;
-	border: 1px solid black;
+	border: 1px solid rgb(196, 196, 196);
 	display: flex;
 	justify-content: space-between;
+	width: 1000px;
+	position: relative;
+	border-radius: 2%;
+	margin: 0 20px;
 }
 .card__title {
 	font-size: 40px;

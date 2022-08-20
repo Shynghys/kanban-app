@@ -3,46 +3,29 @@
 		<div class="title">Отображение списка сделок</div>
 
 		<div>
-			<the-tabs class="tabs__wrapper">
-				<the-tab title="Preparation">
-					<!-- {{ deals[0]?.STAGE_ID }} -->
-					<the-card
-						v-for="item in deals.filter(
-							(item) => item.STAGE_ID == deals[0]?.STAGE_ID
-						)"
-						:key="item.ID"
-						:item="item"
-				/></the-tab>
-				<the-tab title="Final invoice">
-					<!-- {{ deals[1]?.STAGE_ID }} -->
-					<the-card
-						v-for="item in deals.filter(
-							(item) => item.STAGE_ID == deals[1]?.STAGE_ID
-						)"
-						:key="item.ID"
-						:item="item"
-				/></the-tab>
-				<the-tab v-for="tab in status" :key="tab.ID" :title="tab.NAME"
-					><the-card
-						v-for="item in deals.filter(
-							(item) => item.STAGE_ID == tab.STATUS_ID
-						)"
-						:key="item.ID"
-						:item="item"
-					/>
-				</the-tab>
-			</the-tabs>
-
-			<!-- @click="getDeal(tab)" 
-					@getDealFromTabs="getDeal"-->
-			<div v-for="tab in status" :key="tab.ID">
-				{{ tab.NAME }}
-				<the-card
-					v-for="item in deals.filter((item) => item.STAGE_ID == tab.STATUS_ID)"
-					:key="item.ID"
-					:item="item"
-				/>
-			</div>
+			<tabs :options="{ defaultTabHash: 'Новая' }">
+				<tab
+					v-for="tab in status"
+					:key="tab.ID"
+					:name="tab.NAME"
+					:id="tab.NAME"
+				>
+					<div v-if="filterByStage(deals, tab.STATUS_ID).length != 0">
+						<the-card
+							v-for="item in filterByStage(deals, tab.STATUS_ID)"
+							:key="item.ID"
+							:item="item"
+						/>
+					</div>
+					<div v-else>
+						<div class="card">
+							<div>
+								<div class="card__title">Нет сделок</div>
+							</div>
+						</div>
+					</div>
+				</tab>
+			</tabs>
 		</div>
 	</div>
 </template>
@@ -51,6 +34,7 @@
 import TheTabs from "./components/TheTabs.vue";
 import TheTab from "./components/TheTab.vue";
 import TheCard from "./components/TheCard.vue";
+import { Tabs, Tab } from "vue3-tabs-component";
 
 import { ref, nextTick, onMounted, computed } from "vue";
 import axios from "axios";
@@ -76,6 +60,9 @@ async function getDeal(tab) {
 		deals.value = response.data.result;
 		// console.log(response.data.result, deals, deals.value[0].STAGE_ID);
 	});
+}
+function filterByStage(deals1, stage) {
+	return deals1.filter((item) => item.STAGE_ID == stage);
 }
 async function getProducts(deal) {
 	let url = `https://aso-test-1.bitrix24.ru/rest/1/83go2kp1c28weuej/crm.deal.productrows.get?id=${deal.ID}`;
@@ -139,5 +126,28 @@ html {
 
 .title {
 	font-size: 50px;
+	margin-bottom: 20px;
+}
+
+.tabs-component {
+	display: flex;
+	align-items: flex-start;
+	/* justify-content: space-between; */
+	width: 100%;
+}
+.tabs-component-tabs {
+	/* margin-bottom: 10px; */
+	list-style: none;
+	padding: 0;
+	/* border: 1px solid grey; */
+	font-size: 30px;
+	width: 300px;
+}
+.tabs-component-tab {
+	padding: 10px 0;
+	margin-bottom: 5px;
+}
+.tabs-component-tab a {
+	text-decoration: none;
 }
 </style>

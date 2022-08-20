@@ -15,21 +15,17 @@
 </template>
 
 <script >
-import { ref, provide, defineEmits, onMounted, computed } from "vue";
+import { ref, provide, defineEmits, onMounted, computed, useSlots } from "vue";
 
 export default {
-	setup(props, { slots, emit }) {
-		console.log(slots.default());
-		// const tabTitles = ref(
-		// 	slots.default().map((tab) => {
-		// 		return tab?.props?.title;
-		// 	})
-		// );
+	setup(props, { emit, slots }) {
 		onMounted(() => {});
+
 		let tabTitles = ref(
 			computed(() => slots.default().map((tab) => tab.props?.title))
 		);
 		let selectedTitle = ref(tabTitles.value[0]);
+
 		// const emit = defineEmits(["getDealFromTabs"]);
 
 		function clickTab(title) {
@@ -57,7 +53,11 @@ export default {
 	width: 300px;
 }
 .is-active {
-	background: grey;
+	border-radius: 50;
+	background: orange;
+}
+.is-active a {
+	font-weight: 700;
 }
 /* .tabs__header */
 </style>
