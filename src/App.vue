@@ -3,7 +3,7 @@
 		<div class="title">Отображение списка сделок</div>
 
 		<div>
-			<tabs :options="{ defaultTabHash: 'Новая' }">
+			<tabs ref="deals" :options="{ defaultTabHash: 'Новая' }">
 				<tab
 					v-for="tab in status"
 					:key="tab.ID"
@@ -45,6 +45,10 @@ const dealsStore = useDealsStore();
 function filterByStage(deals1, stage) {
 	return deals1.filter((item) => item.STAGE_ID == stage);
 }
+function clickTab(name) {
+	console.log("a", name);
+	dealsStore.chooseTitle(name);
+}
 onMounted(() => {
 	nextTick(async function () {
 		let url = `https://aso-test-1.bitrix24.ru/rest/1/83go2kp1c28weuej/crm.deal.list`;
@@ -61,6 +65,7 @@ onMounted(() => {
 				(item) => item.ENTITY_ID == "DEAL_STAGE"
 			);
 		});
+		// deals.value.selectTab("#Новая");
 	});
 });
 </script>
