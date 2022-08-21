@@ -1,8 +1,6 @@
 <template>
 	<div class="container">
-		<div class="title">
-			Отображение списка сделок {{ dealsStore.selectedTitle }}
-		</div>
+		<div class="title">Отображение списка сделок</div>
 
 		<div>
 			<tabs :options="{ defaultTabHash: 'Новая' }">
@@ -11,7 +9,6 @@
 					:key="tab.ID"
 					:name="tab.NAME"
 					:id="tab.NAME"
-					@click="dealsStore.chooseTitle(tab.NAME)"
 				>
 					<div v-if="filterByStage(deals, tab.STATUS_ID).length != 0">
 						<the-card

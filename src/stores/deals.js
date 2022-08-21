@@ -5,7 +5,7 @@ import {
 export const useDealsStore = defineStore('deals', {
     state: () => {
         return {
-            selectedTitle: ""
+            selectedTitle: "1"
         }
     },
     actions: {
