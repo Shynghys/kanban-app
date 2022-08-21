@@ -28,22 +28,18 @@
 import { ref, nextTick, onMounted, computed } from "vue";
 import axios from "axios";
 
-const props = defineProps({
+const { item } = defineProps({
 	item: Object,
 });
-let { item } = props;
 onMounted(() => {
 	nextTick(async function () {
-		console.log("the card on mount");
 		let url = `https://aso-test-1.bitrix24.ru/rest/1/83go2kp1c28weuej/crm.deal.productrows.get?id=${item.ID}`;
-		// console.log(url);
+
 		await axios.get(url).then((response) => {
 			item.products = response.data.result;
-			// console.log(response.data.result, deals, deals.value[0].STAGE_ID);
 		});
 	});
 });
-// console.log(111, item);
 </script>
 
 <style>

@@ -1,16 +1,20 @@
 <template>
-	<div class="tab__content" v-show="title == selectedTitle">
+	<div class="tab__content" v-show="title == dealsStore.selectedTitle">
 		<slot></slot>
 	</div>
 </template>
 <script>
 import { inject } from "vue";
+
+import { useDealsStore } from "@/stores/deals";
+
 export default {
 	props: ["title"],
 	setup() {
-		const selectedTitle = inject("selectedTitle");
+		const dealsStore = useDealsStore();
+		// const selectedTitle = inject("selectedTitle");
 
-		return { selectedTitle };
+		return { dealsStore };
 	},
 };
 </script>

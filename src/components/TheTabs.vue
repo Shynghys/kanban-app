@@ -17,8 +17,11 @@
 <script >
 import { ref, provide, defineEmits, onMounted, computed, useSlots } from "vue";
 
+import { useDealsStore } from "@/stores/deals";
+
 export default {
 	setup(props, { emit, slots }) {
+		const dealsStore = useDealsStore();
 		onMounted(() => {});
 
 		let tabTitles = ref(
@@ -30,10 +33,11 @@ export default {
 
 		function clickTab(title) {
 			selectedTitle.value = title;
+			dealsStore.chooseTitle(title);
 			console.log("clicktab", selectedTitle);
 			// emit("getDealFromTabs", title);
 		}
-		provide("selectedTitle", selectedTitle);
+		// provide("selectedTitle", selectedTitle);
 
 		return { selectedTitle, tabTitles, clickTab };
 	},
