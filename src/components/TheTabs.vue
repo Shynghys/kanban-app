@@ -56,12 +56,5 @@ export default {
 	font-size: 30px;
 	width: 300px;
 }
-.is-active {
-	border-radius: 50;
-	background: orange;
-}
-.is-active a {
-	font-weight: 700;
-}
 /* .tabs__header */
 </style>

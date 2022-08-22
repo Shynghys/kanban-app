@@ -14,10 +14,10 @@
 			>
 				<div class="card__product">
 					<div>{{ product.PRODUCT_NAME }}</div>
-					|
-					<div>{{ product.QUANTITY }}</div>
-					|
-					<div>{{ product.PRICE }}</div>
+
+					<div>{{ product.QUANTITY }} шт.</div>
+
+					<div>{{ product.PRICE }} тг.</div>
 				</div>
 			</div>
 		</div>
@@ -61,9 +61,17 @@ onMounted(() => {
 	flex-direction: column;
 }
 .card__product {
-	display: flex;
-	justify-content: flex-start;
+	/* display: flex;
+	justify-content: flex-start; */
+	display: grid;
+	grid-template: auto/repeat(3, 1fr);
+	place-items: center flex-end;
+	/* grid-template-columns: repeat(5, 1fr 2fr); */
 	font-size: 20px;
 	gap: 20px;
+}
+.card__product div:not(:last-child) {
+	padding-right: 20px;
+	border-right: 1px solid black;
 }
 </style>

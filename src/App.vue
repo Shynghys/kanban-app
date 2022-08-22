@@ -3,7 +3,8 @@
 		<div class="title">Отображение списка сделок</div>
 
 		<div>
-			<tabs ref="deals" :options="{ defaultTabHash: 'Новая' }">
+			<!-- :options="{ defaultTabHash: 'Новая' }" -->
+			<tabs ref="deals">
 				<tab
 					v-for="tab in status"
 					:key="tab.ID"
@@ -123,5 +124,12 @@ html {
 }
 .tabs-component-tab a {
 	text-decoration: none;
+}
+.is-active {
+	border-radius: 50;
+	background: orange;
+}
+.is-active a {
+	font-weight: 700;
 }
 </style>
