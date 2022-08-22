@@ -11,5 +11,6 @@ module.exports = defineConfig({
                 vue: path.resolve(`./node_modules/vue`)
             }
         }
-    }
+    },
+    publicPath: process.env.NODE_ENV === "production" ? "/kanban-app/" : "/",
 })
